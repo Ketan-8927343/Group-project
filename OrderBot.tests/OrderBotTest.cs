@@ -23,63 +23,103 @@ namespace OrderBot.tests
 
             }
         }
-        [Fact]
-        public void Test1()
-        {
 
-        }
+
         [Fact]
         public void TestWelcome()
         {
             Session oSession = new Session("12345");
             String sInput = oSession.OnMessage("hello")[0];
-            Assert.True(sInput.Contains("Welcome"));
+            Assert.Contains("Welcome", sInput);
         }
+
         [Fact]
         public void TestWelcomPerformance()
         {
             DateTime oStart = DateTime.Now;
+
             Session oSession = new Session("12345");
             String sInput = oSession.OnMessage("hello")[0];
+
+
             DateTime oFinished = DateTime.Now;
             long nElapsed = (oFinished - oStart).Ticks;
             System.Diagnostics.Debug.WriteLine("Elapsed Time: " + nElapsed);
             Assert.True(nElapsed < 10000);
         }
+
+
         [Fact]
-        public void TestShawarama()
-        {
-            Session oSession = new Session("12345");
-            String sInput = oSession.OnMessage("hello")[0];
-            Assert.True(sInput.ToLower().Contains("shawarama"));
-        }
-        [Fact]
-        public void TestSize()
-        {
-            Session oSession = new Session("12345");
-            String sInput = oSession.OnMessage("hello")[1];
-            Assert.True(sInput.ToLower().Contains("size"));
-        }
-        [Fact]
-        public void TestLarge()
+        public void TestRoutines()
         {
             Session oSession = new Session("12345");
             oSession.OnMessage("hello");
-            String sInput = oSession.OnMessage("large")[0];
-            Assert.True(sInput.ToLower().Contains("protein"));
-            Assert.True(sInput.ToLower().Contains("large"));
+            oSession.OnMessage("Skin care");
+            //oSession.OnMessage("Acne");
+            String sInput = oSession.OnMessage("Acne")[0];
+            Assert.Contains("routines", sInput);
         }
+
         [Fact]
-        public void TestChicken()
+        public void TestSkinType()
         {
-            string sPath = DB.GetConnectionString();
             Session oSession = new Session("12345");
+
             oSession.OnMessage("hello");
-            oSession.OnMessage("large");
-            String sInput = oSession.OnMessage("chicken")[0];
-            Assert.True(sInput.ToLower().Contains("toppings"));
-            Assert.True(sInput.ToLower().Contains("large"));
-            Assert.True(sInput.ToLower().Contains("chicken"));
+            oSession.OnMessage("Skin care");
+            oSession.OnMessage("Acne");
+            oSession.OnMessage("Morning");
+
+            String sInput = oSession.OnMessage("Hyaluronic Acid")[0];
+
+            Assert.Contains("skin type", sInput);
         }
+
+
+        [Fact]
+        public void TestFullFlow()
+        {
+            Session oSession = new Session("12345");
+
+            oSession.OnMessage("hello");
+            oSession.OnMessage("Skin care");
+            oSession.OnMessage("Acne");
+            oSession.OnMessage("Morning");
+            oSession.OnMessage("Hyaluronic Acid");
+            oSession.OnMessage("Combination");
+            oSession.OnMessage("No");
+            oSession.OnMessage("60");
+            oSession.OnMessage("DIY Masks");
+            String sInput = oSession.OnMessage("Under-eye")[0];
+
+            Assert.Contains("Your appoinment is booked", sInput);
+        }
+
+        [Fact]
+        public void TestFullFlowPerfomance()
+        {
+            DateTime oStart = DateTime.Now;
+
+            Session oSession = new Session("12345");
+
+            oSession.OnMessage("hello");
+            oSession.OnMessage("Skin care");
+            oSession.OnMessage("Acne");
+            oSession.OnMessage("Morning");
+            oSession.OnMessage("Hyaluronic Acid");
+            oSession.OnMessage("Combination");
+            oSession.OnMessage("No");
+            oSession.OnMessage("60");
+            oSession.OnMessage("DIY Masks");
+            String sInput = oSession.OnMessage("Under-eye")[0];
+
+            //Assert.Contains("Your appoinment is booked", sInput);
+
+            DateTime oFinished = DateTime.Now;
+            long nElapsed = (oFinished - oStart).Ticks;
+            System.Diagnostics.Debug.WriteLine("Elapsed Time: " + nElapsed);
+            Assert.True(nElapsed < 10000);
+        }
+
     }
 }
