@@ -31,6 +31,7 @@ namespace OrderBot
                     this.oOrder.Assist = sInMessage;
                     aMessages.Add("What is your primary skincare concern: [Acne], [Dryness], or [Anti-aging]?");
                     this.nCur = State.ROUTIES;
+                    this.oOrder.Save();
                     break;
                 case State.ROUTIES:
                     this.oOrder.Concern = sInMessage;
@@ -46,6 +47,7 @@ namespace OrderBot
                     this.oOrder.Ingredient = sInMessage;
                     aMessages.Add("How would you describe your skin type: [Oily], [Combination], or [Dry]?");
                     this.nCur = State.ALLERGIES;
+                    this.oOrder.Save();
                     break;
                 case State.ALLERGIES:
                     this.oOrder.SkinType = sInMessage;
@@ -71,7 +73,7 @@ namespace OrderBot
                 case State.FINAL:
                     this.oOrder.EyeConcern = sInMessage;
                     aMessages.Add("Your appoinment is booked. Thanks for contacting us.");
-
+                    this.oOrder.Save();
                     break;
 
                     //case State.SIZE:

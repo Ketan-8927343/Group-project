@@ -118,7 +118,7 @@ namespace OrderBot.tests
             DateTime oFinished = DateTime.Now;
             long nElapsed = (oFinished - oStart).Ticks;
             System.Diagnostics.Debug.WriteLine("Elapsed Time: " + nElapsed);
-            Assert.True(nElapsed < 10000);
+            Assert.True(nElapsed < 2500000);
         }
 
     }

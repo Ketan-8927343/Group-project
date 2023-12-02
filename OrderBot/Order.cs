@@ -1,3 +1,4 @@
+using System.Numerics;
 using Microsoft.Data.Sqlite;
 
 namespace OrderBot
@@ -77,27 +78,49 @@ namespace OrderBot
                 commandUpdate.CommandText =
                 @"
         UPDATE orders
-        SET size = $size
-        WHERE phone = $phone
-    ";
-                //commandUpdate.Parameters.AddWithValue("$size", Size);
-                //commandUpdate.Parameters.AddWithValue("$phone", Phone);
+        SET assist = $assist,
+        concern = $concern,
+        routies = $routies,
+        ingredient = $ingredient,
+        skintype = $skintype,
+        allergies = $allergies,
+        spf = $spf,
+        mask = $mask,
+        eyeconcern = $eyeconcern Where assist = $assist";
+                commandUpdate.Parameters.AddWithValue("$assist", Assist);
+                commandUpdate.Parameters.AddWithValue("$concern", Concern);
+                commandUpdate.Parameters.AddWithValue("$routies", Routins);
+                commandUpdate.Parameters.AddWithValue("$ingredient", Ingredient);
+                commandUpdate.Parameters.AddWithValue("$skintype", SkinType);
+                commandUpdate.Parameters.AddWithValue("$allergies", Allergies);
+                commandUpdate.Parameters.AddWithValue("$spf", SPF);
+                commandUpdate.Parameters.AddWithValue("$mask", Mask);
+                commandUpdate.Parameters.AddWithValue("$eyeconcern", EyeConcern);
+
                 int nRows = commandUpdate.ExecuteNonQuery();
                 if (nRows == 0)
                 {
                     var commandInsert = connection.CreateCommand();
                     commandInsert.CommandText =
                     @"
-            INSERT INTO orders(size, phone)
-            VALUES($size, $phone)
+            INSERT INTO orders(assist, concern,routies,ingredient,skintype,allergies,spf,mask,eyeconcern)
+            VALUES($assist, $concern,$routies,$ingredient,$skintype,$allergies,$spf,$mask,$eyeconcern)
         ";
-                    //commandInsert.Parameters.AddWithValue("$size", Size);
-                    //commandInsert.Parameters.AddWithValue("$phone", Phone);
+                    commandInsert.Parameters.AddWithValue("$assist", Assist);
+                    commandInsert.Parameters.AddWithValue("$concern", Concern);
+                    commandInsert.Parameters.AddWithValue("$routies", Routins);
+                    commandInsert.Parameters.AddWithValue("$ingredient", Ingredient);
+                    commandInsert.Parameters.AddWithValue("$skintype", SkinType);
+                    commandInsert.Parameters.AddWithValue("$allergies", Allergies);
+                    commandInsert.Parameters.AddWithValue("$spf", SPF);
+                    commandInsert.Parameters.AddWithValue("$mask", Mask);
+                    commandInsert.Parameters.AddWithValue("$eyeconcern", EyeConcern);
                     int nRowsInserted = commandInsert.ExecuteNonQuery();
 
+                    //}
                 }
-            }
 
+            }
         }
     }
 }
